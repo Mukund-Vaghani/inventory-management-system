@@ -1,0 +1,27 @@
+.logout-link {
+    /* background-color: #dc3545; */
+    color: #7e7070;
+    padding: 10px 20px;
+    border-radius: 5px;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    transition: background-color 0.3s;
+}
+
+
+.logout-link:hover {
+    background-color: #eae8e8;
+    color: #7e7070;
+}
+
+
+.logout-link i {
+    font-size: 22px;
+}
+
+.logout-link .fas::before {
+    content: "\f2f5";
+    margin-right: 5px;
+}
