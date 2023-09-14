@@ -66,11 +66,9 @@ export class AuthService {
 
       axios({method:'post',url:'http://localhost:8597/v1/auth/getprofile',headers:{'api-key':'20230420','token':data,'Content-Type':'application/json'}}).then((response)=>{
         if(response.data.code == 1){
-          // this.toastr.success(response.data.message,'Success!');
           observer.next(response.data.data)
           observer.complete();
         } else {
-          // this.toastr.error(response.data.message,'Error!');
           observer.error(response.data.message);
         };
       }).catch((error:any)=>{
@@ -79,8 +77,49 @@ export class AuthService {
     })
   }
 
+  // ADD CATEGORY
+  addCategory(data:any,token:any){
+    axios({method:'post',url:'http://localhost:8597/v1/auth/addcategory',headers:{'api-key':'20230420','token':token,'Content-Type':'application/json'},data:data}).then((response)=>{
+      if(response.data.code == 1){
+        this.toastr.success(response.data.message,'Success!');
+        // this.router.navigate(['dashboard/category']);
+      } else {
+        this.toastr.error(response.data.message,'Error!');
+      };
+    }).catch((error:any)=>{
+      this.toastr.error(error,'Error!');
+    });
+  }
 
+  // CATEGORY LIST
+  categoryList(data:any):Observable<any>{
+    return new Observable<any>((observer)=>{
 
+      axios({method:'post',url:'http://localhost:8597/v1/auth/categorylist',headers:{'api-key':'20230420','token':data,'Content-Type':'application/json'}}).then((response)=>{
+        if(response.data.code == 1){
+          observer.next(response.data.data)
+          observer.complete();
+        } else {
+          observer.error(response.data.message);
+        };
+      }).catch((error:any)=>{
+        this.toastr.error(error,'Error!');
+      });
+    })
+  }
+
+  //CATEGORY REMOVE
+  categoryRemove(data:any,token:any){
+    axios({method:'post',url:'http://localhost:8597/v1/auth/removecategory',headers:{'api-key':'20230420','token':token,'Content-Type':'application/json'},data:data}).then((response)=>{
+        if(response.data.code == 1){
+          this.toastr.success(response.data.message,'Success!');
+        } else {
+          this.toastr.error(response.data.message,'Error!');
+        };
+      }).catch((error:any)=>{
+        this.toastr.error(error,'Error!');
+      });
+  }
 
 
 

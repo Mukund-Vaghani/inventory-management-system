@@ -102,6 +102,47 @@ var auth = {
                 callback('0','rest_keywords_nodata',null);
             }
         })
+    },
+
+    addCategory: function(request,callback){
+        const catObj = {
+            category_name:request.category_name
+        }
+
+        con.query(`INSERT INTO tbl_category SET ?`,catObj, function(error,result){
+            if(!error){
+                const id = result.insertId;
+                con.query(`SELECT * FROM tbl_category WHERE id = ${id}`, function(err,res){
+                    if(!err){
+                        callback('1','rest_success',res[0]);
+                    }else{
+                        callback('0',"rest_keywords_something_wrong",null);
+                    }
+                })
+            }else{
+                callback('0','rest_keywords_something_wrong',null)
+            }
+        })
+    },
+
+    ListCategory: function(req,callback){
+        con.query(`SELECT * FROM tbl_category WHERE is_active = '1' AND is_deleted = '0'`, function(err,res){
+            if(!err){
+                callback('1','rest_success',res);
+            }else{
+                callback('0',"rest_keywords_something_wrong",null);
+            }
+        })
+    },
+
+    removeCategory: function(request,callback){
+        con.query(`delete from tbl_category where id = ${request.category_id}`, function(err,res){
+            if(!err){
+                callback('1','rest_success',res);
+            }else{
+                callback('0',"rest_keywords_something_wrong",null);
+            }
+        })
     }
 };
 module.exports = auth;

@@ -5,6 +5,8 @@ const middleware = require('../../../middleware/middleware');
 const multer = require('multer');
 var path = require('path');
 const { measureMemory } = require('vm');
+const { request } = require('http');
+const message = require('../../../language/en');
 
 //SIGN UP 
 router.post('/signup', function (req, res) {
@@ -59,6 +61,56 @@ router.post('/getprofile', function(req,res){
         middleware.sendResponse(req,res,code,message,data);
     })
 })
+
+// INSERT CATEGORY
+router.post('/addcategory', function(req,res){
+    var request = req.body;
+    var rules = {
+        category_name:'required'
+    };
+    var message = {
+        required: req.language.rest_keywords_required_messages
+    }
+    if(middleware.checkValidationRules(request,res,rules,message)){
+        auth.addCategory(request,function(code,message,data){
+            middleware.sendResponse(req,res,code,message,data);
+        })
+    }
+})
+
+// CATEGORY LIST
+router.post('/categorylist', function(req,res){
+    auth.ListCategory(req, function(code,message,data){
+        middleware.sendResponse(req,res,code,message,data);
+    })
+})
+
+// Remove CATEGORY
+router.post('/removecategory', function(req,res){
+    var request = req.body;
+    var rules = {
+        category_id:'required'
+    };
+    var message = {
+        required: req.language.rest_keywords_required_messages
+    }
+    if(middleware.checkValidationRules(request,res,rules,message)){
+        auth.removeCategory(request,function(code,message,data){
+            middleware.sendResponse(req,res,code,message,data);
+        })
+    }
+})
+
+
+
+
+
+
+
+
+
+
+
 
 //FORGOT PASSWORD
 router.post('/forgotpassword', function (req, response) {

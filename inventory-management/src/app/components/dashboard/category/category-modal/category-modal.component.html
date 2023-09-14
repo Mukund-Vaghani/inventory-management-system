@@ -1,0 +1,19 @@
+<div class="modal-header">
+    <h4 class="modal-title">Add Category</h4>
+    <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss()">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="modal-body">
+    <form [formGroup]="categoryForm" (ngSubmit)="submitForm()">
+        <label for="" class="form-label">Category Name</label>
+        <input type="text" name="category_name" class="form-control" formControlName="category_name">
+        <span class="errormsg" *ngIf="submitted && !categoryControl['category_name'].valid || !categoryControl['category_name'].valid && categoryControl['category_name'].touched">Please provide name</span>
+        <hr>
+
+        <div class="profile-details">
+            <button type="submit" class="btn btn-primary">Add</button>
+        </div>
+    </form>
+
+</div>
