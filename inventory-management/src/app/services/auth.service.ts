@@ -236,20 +236,20 @@ export class AuthService {
   }
 
 
-  downloadPDF(DATA: any) {
+  // downloadPDF(DATA: any) {
     
-    let fileName = DATA.getAttribute("id")
+  //   let fileName = DATA.getAttribute("id")
 
-    html2canvas(DATA).then((canvas) => {
-      let fileWidth = 208;
-      let fileHeight = (canvas.height * fileWidth) / canvas.width;
-      const FILEURI = canvas.toDataURL('image/png');
-      let PDF = new jsPDF('p', 'mm', 'a4');
-      let position = 0;
-      PDF.addImage(FILEURI, 'PNG', 0, position, fileWidth, fileHeight);
-      PDF.save(`${fileName}.pdf`);
-    });
-  }
+  //   html2canvas(DATA).then((canvas) => {
+  //     let fileWidth = 208;
+  //     let fileHeight = (canvas.height * fileWidth) / canvas.width;
+  //     const FILEURI = canvas.toDataURL('image/png');
+  //     let PDF = new jsPDF('p', 'mm', 'a4');
+  //     let position = 0;
+  //     PDF.addImage(FILEURI, 'PNG', 0, position, fileWidth, fileHeight);
+  //     PDF.save(`${fileName}.pdf`);
+  //   });
+  // }
 
 
 

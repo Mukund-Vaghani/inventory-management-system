@@ -22,9 +22,9 @@ export class HomeComponent {
     })
   }
 
-  openPDF(){
-    let DATA: any = document.getElementById('htmlData');
-    this.user.downloadPDF(DATA)
-  }
+  // openPDF(){
+  //   let DATA: any = document.getElementById('htmlData');
+  //   this.user.downloadPDF(DATA)
+  // }
 
 }

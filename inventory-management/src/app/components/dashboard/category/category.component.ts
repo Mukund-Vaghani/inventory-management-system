@@ -3,6 +3,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AuthService } from 'src/app/services/auth.service';
 import {CategoryModalComponent} from '../category/category-modal/category-modal.component'
 import { Router } from '@angular/router';
+import { generateReport } from 'src/app/common/generate-report';
 
 @Component({
   selector: 'app-category',
@@ -11,7 +12,7 @@ import { Router } from '@angular/router';
 })
 export class CategoryComponent {
 
-  constructor(private modalService: NgbModal, private user : AuthService, private router:Router) {}
+  constructor(private modalService: NgbModal, private user : AuthService, private router:Router ) {}
   openModal() {
     const modalRef = this.modalService.open(CategoryModalComponent);
   }
@@ -34,7 +35,12 @@ export class CategoryComponent {
 
   openPDF(){
     let DATA: any = document.getElementById('category');
-    this.user.downloadPDF(DATA)
+    generateReport.downloadPDF(DATA)
+  }
+
+  openEXL(){
+    let DATA: any = document.getElementById('category');
+    generateReport.downloadEXL(DATA)
   }
 
 

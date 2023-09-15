@@ -3,6 +3,7 @@ import * as authService from 'src/app/services/auth.service';
 import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ProductModalComponent } from '../product/product-modal/product-modal.component';
+import { generateReport } from 'src/app/common/generate-report';
 
 @Component({
   selector: 'app-product',
@@ -33,8 +34,13 @@ export class ProductComponent {
   }
 
   openPDF(){
-    let DATA: any = document.getElementById('product');
-    this.user.downloadPDF(DATA)
+    let DATA: any = document.getElementById('category');
+    generateReport.downloadPDF(DATA)
+  }
+
+  openEXL(){
+    let DATA: any = document.getElementById('category');
+    generateReport.downloadEXL(DATA)
   }
 
 }

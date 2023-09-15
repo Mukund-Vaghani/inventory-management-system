@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { AuthService } from 'src/app/services/auth.service';
+import { generateReport } from 'src/app/common/generate-report';
 
 @Component({
   selector: 'app-customer',
@@ -27,8 +28,13 @@ export class CustomerComponent {
   }
 
   openPDF(){
-    let DATA: any = document.getElementById('customer');
-    this.user.downloadPDF(DATA)
+    let DATA: any = document.getElementById('category');
+    generateReport.downloadPDF(DATA)
+  }
+
+  openEXL(){
+    let DATA: any = document.getElementById('category');
+    generateReport.downloadEXL(DATA)
   }
 
 
