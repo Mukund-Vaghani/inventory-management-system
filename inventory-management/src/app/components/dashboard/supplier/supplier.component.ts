@@ -20,6 +20,11 @@ export class SupplierComponent {
     })
   }
 
+  openPDF(){
+    let DATA: any = document.getElementById('supplier');
+    this.user.downloadPDF(DATA)
+  }
+
   deleteSupplier(id:any){
     
   }

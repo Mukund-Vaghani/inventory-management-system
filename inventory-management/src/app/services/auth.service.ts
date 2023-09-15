@@ -5,6 +5,8 @@ import { BehaviorSubject } from 'rxjs';
 import { Router } from '@angular/router';
 import axios from 'axios';
 import { ToastrService } from 'ngx-toastr';
+import jsPDF from 'jspdf';
+import html2canvas from 'html2canvas';
 
 @Injectable({
   providedIn: 'root'
@@ -17,236 +19,252 @@ export class AuthService {
 
   // SIGNUP API
   userSignUp(data: any) {
-    axios({method:'post',url:'http://localhost:8597/v1/auth/signup',headers:{'api-key':'20230420','Content-Type':'application/json'},data:data}).then((response)=>{
-      if(response.data.code == 1){
+    axios({ method: 'post', url: 'http://localhost:8597/v1/auth/signup', headers: { 'api-key': '20230420', 'Content-Type': 'application/json' }, data: data }).then((response) => {
+      if (response.data.code == 1) {
         this.toastr.success(response.data.message, 'Success');
         this.router.navigate(["/login"])
-      }else{
+      } else {
         this.toastr.error(response.data.message, 'Error');
       }
-    }).catch((error)=>{
+    }).catch((error) => {
       console.log(error);
     })
   }
 
   //LOGIN API
-  userLogin(data:any){
-    axios({method:'post',url:'http://localhost:8597/v1/auth/login',headers:{'api-key':'20230420','Content-Type':'application/json'},data:data}).then((response)=>{
-      if(response.data.code == 1){
-        this.toastr.success(response.data.message,'Success!');
-        localStorage.setItem('UserToken',response.data.data.tokens);
+  userLogin(data: any) {
+    axios({ method: 'post', url: 'http://localhost:8597/v1/auth/login', headers: { 'api-key': '20230420', 'Content-Type': 'application/json' }, data: data }).then((response) => {
+      if (response.data.code == 1) {
+        this.toastr.success(response.data.message, 'Success!');
+        localStorage.setItem('UserToken', response.data.data.tokens);
         this.isLoggedIn.next(true);
         this.router.navigate(['dashboard']);
       } else {
-        this.toastr.error(response.data.message,'Error!');
+        this.toastr.error(response.data.message, 'Error!');
       };
-    }).catch((error:any)=>{
-      this.toastr.error(error,'Error!');
+    }).catch((error: any) => {
+      this.toastr.error(error, 'Error!');
     });
   };
 
   //LOG OUT API
-  userLogOut(data:any){
-    axios({method:'post',url:'http://localhost:8597/v1/auth/logout',headers:{'api-key':'20230420','token':data,'Content-Type':'application/json'}}).then((response)=>{
-      if(response.data.code == 1){
+  userLogOut(data: any) {
+    axios({ method: 'post', url: 'http://localhost:8597/v1/auth/logout', headers: { 'api-key': '20230420', 'token': data, 'Content-Type': 'application/json' } }).then((response) => {
+      if (response.data.code == 1) {
         localStorage.clear();
         // this.toastr.success(response.data.message,'Success!');
         this.router.navigate(["/login"])
       } else {
-        this.toastr.error(response.data.message,'Error!');
+        this.toastr.error(response.data.message, 'Error!');
       };
-    }).catch((error:any)=>{
-      this.toastr.error(error,'Error!');
+    }).catch((error: any) => {
+      this.toastr.error(error, 'Error!');
     });
   };
 
-//USER DETAIL API
-  userDetail(data:any):Observable<any>{
-    return new Observable<any>((observer)=>{
+  //USER DETAIL API
+  userDetail(data: any): Observable<any> {
+    return new Observable<any>((observer) => {
 
-      axios({method:'post',url:'http://localhost:8597/v1/auth/getprofile',headers:{'api-key':'20230420','token':data,'Content-Type':'application/json'}}).then((response)=>{
-        if(response.data.code == 1){
+      axios({ method: 'post', url: 'http://localhost:8597/v1/auth/getprofile', headers: { 'api-key': '20230420', 'token': data, 'Content-Type': 'application/json' } }).then((response) => {
+        if (response.data.code == 1) {
           observer.next(response.data.data)
           observer.complete();
         } else {
           observer.error(response.data.message);
         };
-      }).catch((error:any)=>{
-        this.toastr.error(error,'Error!');
+      }).catch((error: any) => {
+        this.toastr.error(error, 'Error!');
       });
     })
   }
 
   // ADD CATEGORY
-  addCategory(data:any,token:any){
-    axios({method:'post',url:'http://localhost:8597/v1/auth/addcategory',headers:{'api-key':'20230420','token':token,'Content-Type':'application/json'},data:data}).then((response)=>{
-      if(response.data.code == 1){
-        this.toastr.success(response.data.message,'Success!');
+  addCategory(data: any, token: any) {
+    axios({ method: 'post', url: 'http://localhost:8597/v1/auth/addcategory', headers: { 'api-key': '20230420', 'token': token, 'Content-Type': 'application/json' }, data: data }).then((response) => {
+      if (response.data.code == 1) {
+        this.toastr.success(response.data.message, 'Success!');
         // this.router.navigate(['dashboard/category']);
       } else {
-        this.toastr.error(response.data.message,'Error!');
+        this.toastr.error(response.data.message, 'Error!');
       };
-    }).catch((error:any)=>{
-      this.toastr.error(error,'Error!');
+    }).catch((error: any) => {
+      this.toastr.error(error, 'Error!');
     });
   }
 
   // CATEGORY LIST
-  categoryList(data:any):Observable<any>{
-    return new Observable<any>((observer)=>{
+  categoryList(data: any): Observable<any> {
+    return new Observable<any>((observer) => {
 
-      axios({method:'post',url:'http://localhost:8597/v1/auth/categorylist',headers:{'api-key':'20230420','token':data,'Content-Type':'application/json'}}).then((response)=>{
-        if(response.data.code == 1){
+      axios({ method: 'post', url: 'http://localhost:8597/v1/auth/categorylist', headers: { 'api-key': '20230420', 'token': data, 'Content-Type': 'application/json' } }).then((response) => {
+        if (response.data.code == 1) {
           observer.next(response.data.data)
           observer.complete();
         } else {
           observer.error(response.data.message);
         };
-      }).catch((error:any)=>{
-        this.toastr.error(error,'Error!');
+      }).catch((error: any) => {
+        this.toastr.error(error, 'Error!');
       });
     })
   }
 
   //CATEGORY REMOVE
-  categoryRemove(data:any,token:any){
-    axios({method:'post',url:'http://localhost:8597/v1/auth/removecategory',headers:{'api-key':'20230420','token':token,'Content-Type':'application/json'},data:data}).then((response)=>{
-        if(response.data.code == 1){
-          this.toastr.success(response.data.message,'Success!');
-        } else {
-          this.toastr.error(response.data.message,'Error!');
-        };
-      }).catch((error:any)=>{
-        this.toastr.error(error,'Error!');
-      });
+  categoryRemove(data: any, token: any) {
+    axios({ method: 'post', url: 'http://localhost:8597/v1/auth/removecategory', headers: { 'api-key': '20230420', 'token': token, 'Content-Type': 'application/json' }, data: data }).then((response) => {
+      if (response.data.code == 1) {
+        this.toastr.success(response.data.message, 'Success!');
+      } else {
+        this.toastr.error(response.data.message, 'Error!');
+      };
+    }).catch((error: any) => {
+      this.toastr.error(error, 'Error!');
+    });
   }
 
   // CUSTOMER LIST
-  customerList(data:any):Observable<any>{
-    return new Observable<any>((observer)=>{
+  customerList(data: any): Observable<any> {
+    return new Observable<any>((observer) => {
 
-      axios({method:'post',url:'http://localhost:8597/v1/auth/customerlist',headers:{'api-key':'20230420','token':data,'Content-Type':'application/json'}}).then((response)=>{
-        if(response.data.code == 1){
+      axios({ method: 'post', url: 'http://localhost:8597/v1/auth/customerlist', headers: { 'api-key': '20230420', 'token': data, 'Content-Type': 'application/json' } }).then((response) => {
+        if (response.data.code == 1) {
           observer.next(response.data.data)
           observer.complete();
         } else {
           observer.error(response.data.message);
         };
-      }).catch((error:any)=>{
-        this.toastr.error(error,'Error!');
+      }).catch((error: any) => {
+        this.toastr.error(error, 'Error!');
       });
     })
   }
 
   // SUPPLIER LIST
-  supplierList(data:any):Observable<any>{
-    return new Observable<any>((observer)=>{
+  supplierList(data: any): Observable<any> {
+    return new Observable<any>((observer) => {
 
-      axios({method:'post',url:'http://localhost:8597/v1/auth/supplierlist',headers:{'api-key':'20230420','token':data,'Content-Type':'application/json'}}).then((response)=>{
-        if(response.data.code == 1){
+      axios({ method: 'post', url: 'http://localhost:8597/v1/auth/supplierlist', headers: { 'api-key': '20230420', 'token': data, 'Content-Type': 'application/json' } }).then((response) => {
+        if (response.data.code == 1) {
           observer.next(response.data.data)
           observer.complete();
         } else {
           observer.error(response.data.message);
         };
-      }).catch((error:any)=>{
-        this.toastr.error(error,'Error!');
+      }).catch((error: any) => {
+        this.toastr.error(error, 'Error!');
       });
     })
   }
 
   // ADD PRODUCT
-  addProduct(data:any,token:any){
-    axios({method:'post',url:'http://localhost:8597/v1/auth/addproduct',headers:{'api-key':'20230420','token':token,'Content-Type':'application/json'},data:data}).then((response)=>{
-      if(response.data.code == 1){
-        this.toastr.success(response.data.message,'Success!');
+  addProduct(data: any, token: any) {
+    axios({ method: 'post', url: 'http://localhost:8597/v1/auth/addproduct', headers: { 'api-key': '20230420', 'token': token, 'Content-Type': 'application/json' }, data: data }).then((response) => {
+      if (response.data.code == 1) {
+        this.toastr.success(response.data.message, 'Success!');
         // this.router.navigate(['dashboard/category']);
       } else {
-        this.toastr.error(response.data.message,'Error!');
+        this.toastr.error(response.data.message, 'Error!');
       };
-    }).catch((error:any)=>{
-      this.toastr.error(error,'Error!');
+    }).catch((error: any) => {
+      this.toastr.error(error, 'Error!');
     });
   }
 
   // PRODUCT LIST
-  productList(data:any):Observable<any>{
-    return new Observable<any>((observer)=>{
+  productList(data: any): Observable<any> {
+    return new Observable<any>((observer) => {
 
-      axios({method:'post',url:'http://localhost:8597/v1/auth/productlist',headers:{'api-key':'20230420','token':data,'Content-Type':'application/json'}}).then((response)=>{
-        if(response.data.code == 1){
+      axios({ method: 'post', url: 'http://localhost:8597/v1/auth/productlist', headers: { 'api-key': '20230420', 'token': data, 'Content-Type': 'application/json' } }).then((response) => {
+        if (response.data.code == 1) {
           observer.next(response.data.data)
           observer.complete();
         } else {
           observer.error(response.data.message);
         };
-      }).catch((error:any)=>{
-        this.toastr.error(error,'Error!');
+      }).catch((error: any) => {
+        this.toastr.error(error, 'Error!');
       });
     })
   }
 
   // REMOVE PRODUCT
-  productRemove(data:any,token:any){
-    axios({method:'post',url:'http://localhost:8597/v1/auth/removecategory',headers:{'api-key':'20230420','token':token,'Content-Type':'application/json'},data:data}).then((response)=>{
-        if(response.data.code == 1){
-          this.toastr.success(response.data.message,'Success!');
-        } else {
-          this.toastr.error(response.data.message,'Error!');
-        };
-      }).catch((error:any)=>{
-        this.toastr.error(error,'Error!');
-      });
+  productRemove(data: any, token: any) {
+    axios({ method: 'post', url: 'http://localhost:8597/v1/auth/removecategory', headers: { 'api-key': '20230420', 'token': token, 'Content-Type': 'application/json' }, data: data }).then((response) => {
+      if (response.data.code == 1) {
+        this.toastr.success(response.data.message, 'Success!');
+      } else {
+        this.toastr.error(response.data.message, 'Error!');
+      };
+    }).catch((error: any) => {
+      this.toastr.error(error, 'Error!');
+    });
   }
 
   // SYSTEM USER LIST
-  systemUserList(data:any):Observable<any>{
-    return new Observable<any>((observer)=>{
+  systemUserList(data: any): Observable<any> {
+    return new Observable<any>((observer) => {
 
-      axios({method:'post',url:'http://localhost:8597/v1/auth/systemuserlist',headers:{'api-key':'20230420','token':data,'Content-Type':'application/json'}}).then((response)=>{
-        if(response.data.code == 1){
+      axios({ method: 'post', url: 'http://localhost:8597/v1/auth/systemuserlist', headers: { 'api-key': '20230420', 'token': data, 'Content-Type': 'application/json' } }).then((response) => {
+        if (response.data.code == 1) {
           observer.next(response.data.data)
           observer.complete();
         } else {
           observer.error(response.data.message);
         };
-      }).catch((error:any)=>{
-        this.toastr.error(error,'Error!');
+      }).catch((error: any) => {
+        this.toastr.error(error, 'Error!');
       });
     })
   }
 
   // SYSTEM USER LIST
-  Dashboard(data:any):Observable<any>{
-    return new Observable<any>((observer)=>{
+  Dashboard(data: any): Observable<any> {
+    return new Observable<any>((observer) => {
 
-      axios({method:'post',url:'http://localhost:8597/v1/auth/dashboard',headers:{'api-key':'20230420','token':data,'Content-Type':'application/json'}}).then((response)=>{
-        if(response.data.code == 1){
+      axios({ method: 'post', url: 'http://localhost:8597/v1/auth/dashboard', headers: { 'api-key': '20230420', 'token': data, 'Content-Type': 'application/json' } }).then((response) => {
+        if (response.data.code == 1) {
           observer.next(response.data.data)
           observer.complete();
         } else {
           observer.error(response.data.message);
         };
-      }).catch((error:any)=>{
-        this.toastr.error(error,'Error!');
+      }).catch((error: any) => {
+        this.toastr.error(error, 'Error!');
       });
     })
   }
 
 
+  downloadPDF(DATA: any) {
+    
+    let fileName = DATA.getAttribute("id")
 
-  
-  reloadLogin(){
-    if(localStorage.getItem('UserToken')){
+    html2canvas(DATA).then((canvas) => {
+      let fileWidth = 208;
+      let fileHeight = (canvas.height * fileWidth) / canvas.width;
+      const FILEURI = canvas.toDataURL('image/png');
+      let PDF = new jsPDF('p', 'mm', 'a4');
+      let position = 0;
+      PDF.addImage(FILEURI, 'PNG', 0, position, fileWidth, fileHeight);
+      PDF.save(`${fileName}.pdf`);
+    });
+  }
+
+
+
+
+  reloadLogin() {
+    if (localStorage.getItem('UserToken')) {
       this.isLoggedIn.next(true);
       this.router.navigate(['dashboard']);
     } else {
       this.router.navigate(['/']);
     };
   }
-  
-  reloadRegister(){
-    if(localStorage.getItem('UserToken')){
+
+  reloadRegister() {
+    if (localStorage.getItem('UserToken')) {
       this.isLoggedIn.next(true);
       this.router.navigate(['dashboard']);
     } else {

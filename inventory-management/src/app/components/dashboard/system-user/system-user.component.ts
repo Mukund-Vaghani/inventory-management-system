@@ -21,4 +21,10 @@ export class SystemUserComponent {
     })
   }
 
+  openPDF(){
+    let DATA: any = document.getElementById('system-user');
+    this.user.downloadPDF(DATA)
+  }
+
+
 }

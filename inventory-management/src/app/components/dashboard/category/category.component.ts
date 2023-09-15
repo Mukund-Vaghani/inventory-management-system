@@ -32,4 +32,10 @@ export class CategoryComponent {
     this.user.categoryRemove(category_id,localStorage.getItem('UserToken'))
   }
 
+  openPDF(){
+    let DATA: any = document.getElementById('category');
+    this.user.downloadPDF(DATA)
+  }
+
+
 }

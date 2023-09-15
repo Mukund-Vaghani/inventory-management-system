@@ -21,4 +21,10 @@ export class HomeComponent {
       console.log(error);
     })
   }
+
+  openPDF(){
+    let DATA: any = document.getElementById('htmlData');
+    this.user.downloadPDF(DATA)
+  }
+
 }

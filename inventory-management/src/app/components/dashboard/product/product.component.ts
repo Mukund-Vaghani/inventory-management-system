@@ -31,4 +31,10 @@ export class ProductComponent {
     product_id= {"product_id":product_id}
     this.user.productRemove(product_id,localStorage.getItem('UserToken'))
   }
+
+  openPDF(){
+    let DATA: any = document.getElementById('product');
+    this.user.downloadPDF(DATA)
+  }
+
 }

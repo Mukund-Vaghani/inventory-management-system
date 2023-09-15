@@ -26,4 +26,10 @@ export class CustomerComponent {
     
   }
 
+  openPDF(){
+    let DATA: any = document.getElementById('customer');
+    this.user.downloadPDF(DATA)
+  }
+
+
 }
