@@ -101,6 +101,78 @@ router.post('/removecategory', function(req,res){
     }
 })
 
+// CUSTOMER LIST
+router.post('/customerlist', function(req,res){
+    auth.customerList(req, function(code,message,data){
+        middleware.sendResponse(req,res,code,message,data)
+    })
+})
+
+// SUPPLIER LIST
+router.post('/supplierlist', function(req,res){
+    auth.supplierList(req, function(code,message,data){
+        middleware.sendResponse(req,res,code,message,data)
+    })
+})
+
+// ADD PRODUCT
+router.post('/addproduct', function(req,res){
+    var request = req.body
+    var rules = {
+        product_name:'required',
+        price:'required',
+        qty:'required',
+        category_id:'required'
+    }
+
+    var message = {
+        required: req.language.rest_keywords_required_messages
+    }
+
+    if(middleware.checkValidationRules(request,res,rules,message)){
+        auth.addProduct(request,function(code,message,data){
+            middleware.sendResponse(req,res,code,message,data);
+        })
+    }
+})
+
+// PRODUCT LIST
+router.post('/productlist', function(req,res){
+    auth.productList(req, function(code,message,data){
+        middleware.sendResponse(req,res,code,message,data)
+    })
+})
+
+// REMOVE PRODUCT
+router.post('/removeproduct', function(req,res){
+    var request = req.body;
+    var rules = {
+        product_id:'required'
+    };
+    var message = {
+        required: req.language.rest_keywords_required_messages
+    }
+    if(middleware.checkValidationRules(request,res,rules,message)){
+        auth.removeProduct(request,function(code,message,data){
+            middleware.sendResponse(req,res,code,message,data);
+        })
+    }
+})
+
+// SYSTEM USER LIST
+router.post('/systemuserlist', function(req,res){
+    auth.systemUserList(req, function(code,message,data){
+        middleware.sendResponse(req,res,code,message,data)
+    })
+})
+
+// DASHBOARD
+router.post('/dashboard', function(req,res){
+    auth.Dashboard(req, function(code,message,data){
+        middleware.sendResponse(req,res,code,message,data)
+    })
+})
+
 
 
 

@@ -1,1 +1,30 @@
-<p>product works!</p>
+<div class="table-div">
+
+    <div class="category-header">
+        <h3 style=" margin: 5px 0px 5px 2px;">List of Product</h3>
+        <button class="btn btn-danger" (click)="openModal()"><i class="fa-solid fa-plus"></i> Add a New
+            Product</button>
+    </div>
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Product Name</th>
+                <th scope="col">Price</th>
+                <th scope="col">Qty</th>
+                <th scope="col">Category</th>
+                <th scope="col">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let i of product">
+                <th scope="row">{{i.id}}</th>
+                <td>{{i.product_name}}</td>
+                <td>{{i.price}}</td>
+                <td>{{i.qty}}</td>
+                <td>{{i.category_name}}</td>
+                <td><button class="btn btn-danger" (click)="deleteProduct(i.id)">Delete</button></td>
+            </tr>
+        </tbody>
+    </table>
+</div>

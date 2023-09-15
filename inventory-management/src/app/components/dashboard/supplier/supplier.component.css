@@ -1,0 +1,12 @@
+.table-div{
+    border-top: 4px solid green;
+    margin-top: 10px;
+    margin-right: 10px;
+}
+
+.category-header{
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}

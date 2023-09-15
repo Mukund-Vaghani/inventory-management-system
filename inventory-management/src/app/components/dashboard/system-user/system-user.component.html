@@ -1,1 +1,28 @@
-<p>system-user works!</p>
+<div class="table-div">
+
+    <div class="category-header">
+        <h3 style=" margin: 5px 0px 5px 2px;">List of User</h3>
+    </div>
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Name</th>
+                <th scope="col">Email</th>
+                <th scope="col">Role</th>
+                <th scope="col">Login Session</th>
+                <!-- <th scope="col">Action</th> -->
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let i of system_user">
+                <th scope="row">{{i.id}}</th>
+                <td>{{i.name}}</td>
+                <td>{{i.email}}</td>
+                <td>{{i.role}}</td>
+                <td>{{i.updated_at}}</td>
+                <!-- <td><button class="btn btn-danger" (click)="deleteProduct(i.id)">Delete</button></td> -->
+            </tr>
+        </tbody>
+    </table>
+</div>

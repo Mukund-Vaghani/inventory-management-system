@@ -121,6 +121,101 @@ export class AuthService {
       });
   }
 
+  // CUSTOMER LIST
+  customerList(data:any):Observable<any>{
+    return new Observable<any>((observer)=>{
+
+      axios({method:'post',url:'http://localhost:8597/v1/auth/customerlist',headers:{'api-key':'20230420','token':data,'Content-Type':'application/json'}}).then((response)=>{
+        if(response.data.code == 1){
+          observer.next(response.data.data)
+          observer.complete();
+        } else {
+          observer.error(response.data.message);
+        };
+      }).catch((error:any)=>{
+        this.toastr.error(error,'Error!');
+      });
+    })
+  }
+
+  // SUPPLIER LIST
+  supplierList(data:any):Observable<any>{
+    return new Observable<any>((observer)=>{
+
+      axios({method:'post',url:'http://localhost:8597/v1/auth/supplierlist',headers:{'api-key':'20230420','token':data,'Content-Type':'application/json'}}).then((response)=>{
+        if(response.data.code == 1){
+          observer.next(response.data.data)
+          observer.complete();
+        } else {
+          observer.error(response.data.message);
+        };
+      }).catch((error:any)=>{
+        this.toastr.error(error,'Error!');
+      });
+    })
+  }
+
+  // ADD PRODUCT
+  addProduct(data:any,token:any){
+    axios({method:'post',url:'http://localhost:8597/v1/auth/addproduct',headers:{'api-key':'20230420','token':token,'Content-Type':'application/json'},data:data}).then((response)=>{
+      if(response.data.code == 1){
+        this.toastr.success(response.data.message,'Success!');
+        // this.router.navigate(['dashboard/category']);
+      } else {
+        this.toastr.error(response.data.message,'Error!');
+      };
+    }).catch((error:any)=>{
+      this.toastr.error(error,'Error!');
+    });
+  }
+
+  // PRODUCT LIST
+  productList(data:any):Observable<any>{
+    return new Observable<any>((observer)=>{
+
+      axios({method:'post',url:'http://localhost:8597/v1/auth/productlist',headers:{'api-key':'20230420','token':data,'Content-Type':'application/json'}}).then((response)=>{
+        if(response.data.code == 1){
+          observer.next(response.data.data)
+          observer.complete();
+        } else {
+          observer.error(response.data.message);
+        };
+      }).catch((error:any)=>{
+        this.toastr.error(error,'Error!');
+      });
+    })
+  }
+
+  // REMOVE PRODUCT
+  productRemove(data:any,token:any){
+    axios({method:'post',url:'http://localhost:8597/v1/auth/removecategory',headers:{'api-key':'20230420','token':token,'Content-Type':'application/json'},data:data}).then((response)=>{
+        if(response.data.code == 1){
+          this.toastr.success(response.data.message,'Success!');
+        } else {
+          this.toastr.error(response.data.message,'Error!');
+        };
+      }).catch((error:any)=>{
+        this.toastr.error(error,'Error!');
+      });
+  }
+
+  // SYSTEM USER LIST
+  systemUserList(data:any):Observable<any>{
+    return new Observable<any>((observer)=>{
+
+      axios({method:'post',url:'http://localhost:8597/v1/auth/systemuserlist',headers:{'api-key':'20230420','token':data,'Content-Type':'application/json'}}).then((response)=>{
+        if(response.data.code == 1){
+          observer.next(response.data.data)
+          observer.complete();
+        } else {
+          observer.error(response.data.message);
+        };
+      }).catch((error:any)=>{
+        this.toastr.error(error,'Error!');
+      });
+    })
+  }
+
 
 
   

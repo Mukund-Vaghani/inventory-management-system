@@ -1,0 +1,56 @@
+<div class="modal-header">
+    <h4 class="modal-title">Add Category</h4>
+    <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss()">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="modal-body">
+    <form [formGroup]="productForm" (ngSubmit)="submitForm()">
+
+        <div>
+
+            <label for="" class="form-label">Product Category</label>
+            <div class="dropdown-select">
+                <select name="product_category" formControlName="product_category" class="form-control">
+                    <option value=""></option>
+                    <option *ngFor='let i of category' [value]='i.id'>{{i.category_name}}</option>
+                </select>
+                <span class="dropdown-arrow"></span>
+            </div>
+            <span class="errormsg"
+                *ngIf="submitted && !productControl['product_category'].valid || !productControl['product_category'].valid && productControl['product_category'].touched">Please
+                select category</span>
+        </div>
+
+        <div>
+            <label for="" class="form-label">Product Name</label>
+            <input type="text" name="product_name" class="form-control" formControlName="product_name">
+            <span class="errormsg"
+                *ngIf="submitted && !productControl['product_name'].valid || !productControl['product_name'].valid && productControl['product_name'].touched">Please
+                provide name</span>
+        </div>
+
+        <div>
+            <label for="" class="form-label">Product Price</label>
+            <input type="text" name="product_price" class="form-control" formControlName="product_price">
+            <span class="errormsg"
+                *ngIf="submitted && !productControl['product_price'].valid || !productControl['product_price'].valid && productControl['product_price'].touched">Please
+                provide price</span>
+        </div>
+
+        <div>    
+            <label for="" class="form-label">Product Qty</label>
+            <input type="text" name="product_qty" class="form-control" formControlName="product_qty">
+            <span class="errormsg"
+            *ngIf="submitted && !productControl['product_qty'].valid || !productControl['product_qty'].valid && productControl['product_qty'].touched">Please
+            provide Qty</span>
+        </div>
+
+        <hr>
+
+        <div class="profile-details">
+            <button type="submit" class="btn btn-primary">Add</button>
+        </div>
+    </form>
+
+</div>

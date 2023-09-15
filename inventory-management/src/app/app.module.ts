@@ -24,6 +24,7 @@ import { OutgoingProductComponent } from './components/dashboard/outgoing-produc
 import { PurchasProductComponent } from './components/dashboard/purchas-product/purchas-product.component';
 import { SystemUserComponent } from './components/dashboard/system-user/system-user.component';
 import { CategoryModalComponent } from './components/dashboard/category/category-modal/category-modal.component';
+import { ProductModalComponent } from './components/dashboard/product/product-modal/product-modal.component';
 
 
 
@@ -45,7 +46,8 @@ import { CategoryModalComponent } from './components/dashboard/category/category
     OutgoingProductComponent,
     PurchasProductComponent,
     SystemUserComponent,
-    CategoryModalComponent
+    CategoryModalComponent,
+    ProductModalComponent
   ],
   imports: [
     BrowserModule,

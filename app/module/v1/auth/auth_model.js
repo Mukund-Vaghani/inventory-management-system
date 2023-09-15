@@ -143,6 +143,84 @@ var auth = {
                 callback('0',"rest_keywords_something_wrong",null);
             }
         })
+    },
+
+    customerList: function(req,callback){
+        con.query(`select * from tbl_user where role = 'customer' AND id != ${req.user_id} AND status = 'active'`,function(error,result){
+            if(!error){
+                callback('1','rest_success',result)
+            }else{
+                callback('0','rest_keywords_something_wrong',null);
+            }
+        })
+    },
+
+    supplierList:function(req,callback){
+        con.query(`select * from tbl_user where role = 'supplier' AND id != ${req.user_id} AND status = 'active'`, function(error,result){
+            if(!error){
+                callback('1','rest_success',result)
+            }else{
+                callback('0','rest_keywords_something_wrong',null);
+            }
+        })
+    },
+
+    addProduct: function(request,callback){
+        const prodObj = {
+            product_name:request.product_name,
+            price:request.price,
+            qty:request.qty,
+            category_id:request.category_id,
+        }
+
+        con.query(`INSERT INTO tbl_product SET ?`,prodObj, function(error,result){
+            if(!error){
+                const id = result.insertId;
+                con.query(`SELECT * FROM tbl_product WHERE id = ${id}`, function(err,res){
+                    if(!err){
+                        callback('1','rest_success',res[0]);
+                    }else{
+                        callback('0',"rest_keywords_something_wrong",null);
+                    }
+                })
+            }else{
+                callback('0','rest_keywords_something_wrong',null)
+            }
+        })
+    },
+
+    productList: function(request,callback){
+        con.query(`SELECT *, (select category_name from tbl_category where id = tbl_product.id) as category_name FROM tbl_product WHERE is_active = 1 AND is_deleted = 0`, function(err,res){
+            if(!err){
+                callback('1','rest_success',res);
+            }else{
+                callback('0',"rest_keywords_something_wrong",null);
+            }
+        })
+    },
+
+    removeProduct: function(request,callback){
+        con.query(`delete from tbl_category where id = ${request.product_id}`, function(err,res){
+            if(!err){
+                callback('1','rest_success',res);
+            }else{
+                callback('0',"rest_keywords_something_wrong",null);
+            }
+        })
+    },
+
+    systemUserList: function(req,callback){
+        con.query(`select *,(select id from tbl_user_deviceinfo where user_id = tbl_user.id AND token != '') from tbl_user where status = 'active' AND id != ${req.user_id}`, function(error,result){
+            if(!error){
+                callback('1','rest_success',result);
+            }else{
+                callback('0',"rest_keywords_something_wrong",null);
+            }
+        })
+    },
+
+    Dashboard: function(request,callback){
+        // con.query()
     }
 };
 module.exports = auth;
