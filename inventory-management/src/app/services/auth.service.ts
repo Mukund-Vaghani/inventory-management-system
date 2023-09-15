@@ -216,6 +216,23 @@ export class AuthService {
     })
   }
 
+  // SYSTEM USER LIST
+  Dashboard(data:any):Observable<any>{
+    return new Observable<any>((observer)=>{
+
+      axios({method:'post',url:'http://localhost:8597/v1/auth/dashboard',headers:{'api-key':'20230420','token':data,'Content-Type':'application/json'}}).then((response)=>{
+        if(response.data.code == 1){
+          observer.next(response.data.data)
+          observer.complete();
+        } else {
+          observer.error(response.data.message);
+        };
+      }).catch((error:any)=>{
+        this.toastr.error(error,'Error!');
+      });
+    })
+  }
+
 
 
   

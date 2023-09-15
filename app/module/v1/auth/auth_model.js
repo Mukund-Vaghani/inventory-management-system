@@ -220,7 +220,13 @@ var auth = {
     },
 
     Dashboard: function(request,callback){
-        // con.query()
+        con.query(`select count(id) as system_user, (select count(id) from tbl_category where is_active = 1 AND is_deleted = 0) as category, (select count(id) from tbl_product where is_active = 1 AND is_deleted = 0) as product, (select count(id) from tbl_user where role = 'customer') as customer, (select count(id) from tbl_user where role = 'supplier') as supplier from tbl_user where status='active' AND role != 'admin' AND id != ${request.user_id}`,function(error,result){
+            if(!error){
+                callback('1','rest_success',result);
+            }else{
+                callback('0',"rest_keywords_something_wrong",null);
+            }
+        })
     }
 };
 module.exports = auth;

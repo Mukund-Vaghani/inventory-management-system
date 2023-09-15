@@ -9,6 +9,7 @@ import { AuthService } from 'src/app/services/auth.service';
 export class DashboardComponent {
 
   constructor(private user:AuthService){}
+ 
   ngOnInit(){
     this.user.reloadLogin();
   }
